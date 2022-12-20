@@ -1,7 +1,7 @@
 /****************************************************************************************************************************
   esp_eth_enc28j60.h
 
-  For LwIP ENC28J60 Ethernet in ESP32_SC_ENC (ESP32_S2/3, ESP32_C3 + LwIP ENC28J60)
+  For LwIP ENC28J60 Ethernet in ESP32_SC_ENC (ESP32_S2/S3/C3 + LwIP ENC28J60)
 
   AsyncWebServer_ESP32_SC_ENC is a library for the LwIP Ethernet ENC28J60 in ESP32_S2/S3/C3 to run AsyncWebServer
 
@@ -9,12 +9,13 @@
   Built by Khoi Hoang https://github.com/khoih-prog/AsyncWebServer_ESP32_SC_ENC
   Licensed under GPLv3 license
 
-  Version: 1.7.0
+  Version: 1.8.0
 
   Version Modified By   Date      Comments
   ------- -----------  ---------- -----------
   1.6.3   K Hoang      15/12/2022 Initial porting for ENC28J60 + ESP32_S3. Sync with AsyncWebServer_ESP32_ENC v1.6.3
   1.7.0   K Hoang      19/12/2022 Add support to ESP32_S2_ENC (ESP32_S2 + LwIP ENC28J60)
+  1.8.0   K Hoang      20/12/2022 Add support to ESP32_C3_ENC (ESP32_C3 + LwIP ENC28J60)
  *****************************************************************************************************************************/
 
 // Copyright 2021 Espressif Systems (Shanghai) PTE LTD
