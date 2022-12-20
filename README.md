@@ -77,7 +77,7 @@
   * [Methods for controlling websocket connections](#methods-for-controlling-websocket-connections)
   * [Adding Default Headers](#adding-default-headers)
   * [Path variable](#path-variable)
-* [How to connect ENC28J60 to ESP32_S3](#How-to-connect-ENC28J60-to-ESP32_S3)
+* [How to connect ENC28J60 to ESP32_S2/S3](#How-to-connect-ENC28J60-to-ESP32_S2S3)
 * [Examples](#examples)
   * [ 1. Async_AdvancedWebServer](examples/Async_AdvancedWebServer)
   * [ 2. Async_AdvancedWebServer_MemoryIssues_SendArduinoString](examples/Async_AdvancedWebServer_MemoryIssues_SendArduinoString)
@@ -225,9 +225,17 @@ to apply the better and faster **asynchronous** feature of the **powerful** [ESP
 #### Currently supported Boards
 
  1. **ESP32_S3 boards** using `LwIP ENC28J60 Ethernet`
+ 2. **ESP32_S2 boards** using `LwIP ENC28J60 Ethernet`
  
- Hopefully the `ESP32_S2` and `ESP32_C3-based` boards will be supported in the near future to use `LwIP W5500 or ENC28J60 Ethernet`
+ Hopefully the `ESP32_C3-based` boards will be supported in the near future to use `LwIP W5500 or ENC28J60 Ethernet`
 
+
+
+#### ESP32S2_DEV
+
+<p align="center">
+    <img src="https://github.com/khoih-prog/AsyncWebServer_ESP32_SC_ENC/raw/main/pics/ESP32S2_DEV.png">
+</p> 
 
 
 #### ESP32S3_DEV
@@ -1253,7 +1261,7 @@ IPAddress myDNS(8, 8, 8, 8);
 // For ENC28J60 & ESP32-S3
 // Optional values to override default settings
 // Don't change unless you know what you're doing
-//#define SPI_HOST            SPI3_HOST
+//#define ETH_SPI_HOST        SPI3_HOST
 //#define SPI_CLOCK_MHZ       8
 
 // Must connect INT to GPIOxx or not working
@@ -1313,7 +1321,7 @@ void setup()
   Serial.println(ASYNC_WEBSERVER_ESP32_SC_ENC_VERSION);
 
   AWS_LOGWARN(F("Default SPI pinout:"));
-  AWS_LOGWARN1(F("SPI Host:"), SPI_HOST);
+  AWS_LOGWARN1(F("SPI Host:"), ETH_SPI_HOST);
   AWS_LOGWARN1(F("MOSI:"), MOSI_GPIO);
   AWS_LOGWARN1(F("MISO:"), MISO_GPIO);
   AWS_LOGWARN1(F("SCK:"),  SCK_GPIO);
@@ -1333,8 +1341,8 @@ void setup()
 
   //bool begin(int MISO_GPIO, int MOSI_GPIO, int SCLK_GPIO, int CS_GPIO, int INT_GPIO, int SPI_CLOCK_MHZ,
   //           int SPI_HOST, uint8_t *ENC28J60_Mac = ENC28J60_Default_Mac);
-  //ETH.begin( MISO_GPIO, MOSI_GPIO, SCK_GPIO, CS_GPIO, INT_GPIO, SPI_CLOCK_MHZ, SPI_HOST );
-  ETH.begin( MISO_GPIO, MOSI_GPIO, SCK_GPIO, CS_GPIO, INT_GPIO, SPI_CLOCK_MHZ, SPI_HOST, mac[index] );
+  //ETH.begin( MISO_GPIO, MOSI_GPIO, SCK_GPIO, CS_GPIO, INT_GPIO, SPI_CLOCK_MHZ, ETH_SPI_HOST );
+  ETH.begin( MISO_GPIO, MOSI_GPIO, SCK_GPIO, CS_GPIO, INT_GPIO, SPI_CLOCK_MHZ, ETH_SPI_HOST, mac[index] );
 
   // Static IP, leave without this line to get IP via DHCP
   //bool config(IPAddress local_ip, IPAddress gateway, IPAddress subnet, IPAddress dns1 = 0, IPAddress dns2 = 0);
@@ -1508,7 +1516,7 @@ build_flags =
 ---
 ---
 
-### How to connect ENC28J60 to ESP32_S3
+### How to connect ENC28J60 to ESP32_S2/S3
 
 You can change the `INT` pin to another one. Default is `GPIO4`
 
@@ -1517,14 +1525,8 @@ You can change the `INT` pin to another one. Default is `GPIO4`
 #define INT_GPIO            4
 ```
 
+
 ---
-
-
-#### ESP32S3_DEV
-
-<p align="center">
-    <img src="https://github.com/khoih-prog/AsyncWebServer_ESP32_SC_ENC/raw/main/pics/ESP32S3_DEV.png">
-</p> 
 
 
 #### ENC28J60
@@ -1533,7 +1535,14 @@ You can change the `INT` pin to another one. Default is `GPIO4`
     <img src="https://github.com/khoih-prog/AsyncWebServer_ESP32_SC_ENC/raw/main/pics/ENC28J60.png">
 </p>
 
---- 
+---
+
+#### ESP32S3_DEV
+
+<p align="center">
+    <img src="https://github.com/khoih-prog/AsyncWebServer_ESP32_SC_ENC/raw/main/pics/ESP32S3_DEV.png">
+</p> 
+
 
 |ENC28J60|<--->|ESP32_S3|
 |:-:|:-:|:-:|
@@ -1541,6 +1550,26 @@ You can change the `INT` pin to another one. Default is `GPIO4`
 |MISO|<--->|GPIO13|
 |SCK|<--->|GPIO12|
 |SS|<--->|GPIO10|
+|INT|<--->|GPIO4|
+|GND|<--->|GND|
+|3.3V|<--->|3.3V|
+
+
+---
+
+#### ESP32S2_DEV
+
+<p align="center">
+    <img src="https://github.com/khoih-prog/AsyncWebServer_ESP32_SC_ENC/raw/main/pics/ESP32S2_DEV.png">
+</p> 
+
+
+|ENC28J60|<--->|ESP32_S2|
+|:-:|:-:|:-:|
+|MOSI|<--->|GPIO35|
+|MISO|<--->|GPIO37|
+|SCK|<--->|GPIO36|
+|SS|<--->|GPIO34|
 |INT|<--->|GPIO4|
 |RST|<--->|RST|
 |GND|<--->|GND|
@@ -1574,7 +1603,7 @@ You can change the `INT` pin to another one. Default is `GPIO4`
 
 ### Example [Async_AdvancedWebServer](examples/Async_AdvancedWebServer)
 
-https://github.com/khoih-prog/AsyncWebServer_ESP32_SC_ENC/blob/a41c9b3f290fa58ee5fa0bc87bab3e8ef05f4670/examples/Async_AdvancedWebServer/Async_AdvancedWebServer.ino#L41-L258
+https://github.com/khoih-prog/AsyncWebServer_ESP32_SC_ENC/blob/bda58d919d25fdee17df7aa99488fadec6c59002/examples/Async_AdvancedWebServer/Async_AdvancedWebServer.ino#L41-L258
 
 
 You can access the Async Advanced WebServer @ the server IP
@@ -1595,7 +1624,7 @@ Following are debug terminal output and screen shots when running example [Async
 
 ```cpp
 Start AsyncMultiWebServer_ESP32_ENC on ESP32S3_DEV with ESP32_S3_ENC28J60
-AsyncWebServer_ESP32_SC_ENC v1.6.3 for core v2.0.0+
+AsyncWebServer_ESP32_SC_ENC v1.7.0 for core v2.0.0+
 [AWS] Default SPI pinout:
 [AWS] SPI Host: 1
 [AWS] MOSI: 11
@@ -1645,7 +1674,7 @@ Following is the debug terminal and screen shot when running example [Async_Adva
 
 ```cpp
 Start Async_AdvancedWebServer_MemoryIssues_Send_CString on ESP32S3_DEV with ESP32_S3_ENC28J60
-AsyncWebServer_ESP32_SC_ENC v1.6.3 for core v2.0.0+
+AsyncWebServer_ESP32_SC_ENC v1.7.0 for core v2.0.0+
 [AWS] Default SPI pinout:
 [AWS] SPI Host: 1
 [AWS] MOSI: 11
@@ -1681,7 +1710,7 @@ While using `Arduino String`, the HEAP usage is very large
 
 ```cpp
 Start Async_AdvancedWebServer_MemoryIssues_SendArduinoString on ESP32S3_DEV with ESP32_S3_ENC28J60
-AsyncWebServer_ESP32_SC_ENC v1.6.3 for core v2.0.0+
+AsyncWebServer_ESP32_SC_ENC v1.7.0 for core v2.0.0+
 [AWS] Default SPI pinout:
 [AWS] SPI Host: 1
 [AWS] MOSI: 11
@@ -1721,7 +1750,7 @@ Following is debug terminal output when running example [Async_AdvancedWebServer
 
 ```cpp
 Start Async_AdvancedWebServer_SendChunked on ESP32S3_DEV with ESP32_S3_ENC28J60
-AsyncWebServer_ESP32_SC_ENC v1.6.3 for core v2.0.0+
+AsyncWebServer_ESP32_SC_ENC v1.7.0 for core v2.0.0+
 [AWS] Default SPI pinout:
 [AWS] SPI Host: 1
 [AWS] MOSI: 11
@@ -1781,7 +1810,7 @@ Following is debug terminal output when running example [AsyncWebServer_SendChun
 
 ```cpp
 Start AsyncWebServer_SendChunked on ESP32S3_DEV with ESP32_S3_ENC28J60
-AsyncWebServer_ESP32_SC_ENC v1.6.3 for core v2.0.0+
+AsyncWebServer_ESP32_SC_ENC v1.7.0 for core v2.0.0+
 [AWS] Default SPI pinout:
 [AWS] SPI Host: 1
 [AWS] MOSI: 11
@@ -1847,7 +1876,7 @@ Following is debug terminal output when running example [Async_WebSocketsServer]
 
 ```cpp
 Starting Async_WebSocketsServer on ESP32S3_DEV with ESP32_S3_ENC28J60
-AsyncWebServer_ESP32_SC_ENC v1.6.3 for core v2.0.0+
+AsyncWebServer_ESP32_SC_ENC v1.7.0 for core v2.0.0+
 [AWS] Default SPI pinout:
 [AWS] SPI Host: 1
 [AWS] MOSI: 11
@@ -1877,7 +1906,7 @@ Following is debug terminal output when running example [Async_HTTPBasicAuth](ex
 
 ```cpp
 Start Async_HTTPBasicAuth on ESP32S3_DEV with ESP32_S3_ENC28J60
-AsyncWebServer_ESP32_SC_ENC v1.6.3 for core v2.0.0+
+AsyncWebServer_ESP32_SC_ENC v1.7.0 for core v2.0.0+
 [AWS] Default SPI pinout:
 [AWS] SPI Host: 1
 [AWS] MOSI: 11
@@ -1896,6 +1925,59 @@ Async_HttpBasicAuth started @ IP : 192.168.2.88
 Open http://192.168.2.88/ in your browser to see it working
 Login using username = admin and password = esp32_enc28j60
 ```
+
+
+---
+
+#### 7. Async_AdvancedWebServer_SendChunked on ESP32S2_DEV with ESP32_S2_ENC28J60
+
+Following is debug terminal output when running example [Async_AdvancedWebServer_SendChunked](examples/Async_AdvancedWebServer_SendChunked) on `ESP32S2_DEV with ESP32_S2_ENC28J60`, using ESP32 core `v2.0.0+`, to demo how to use `beginChunkedResponse()` to send large `html` in chunks. The `built-in MAC address` is used now instead of user-defined one.
+
+
+```cpp
+Start Async_AdvancedWebServer_SendChunked on ESP32S2_DEV with ESP32_S2_ENC28J60
+AsyncWebServer_ESP32_SC_ENC v1.7.0 for core v2.0.0+
+[AWS] Default SPI pinout:
+[AWS] SPI Host: 1
+[AWS] MOSI: 35
+[AWS] MISO: 37
+[AWS] SCK: 36
+[AWS] CS: 34
+[AWS] INT: 4
+[AWS] SPI Clock (MHz): 8
+[AWS] =========================
+
+ETH Started
+ETH Connected
+ETH MAC: 7E:DF:A1:08:64:27, IPv4: 192.168.2.132
+FULL_DUPLEX, 10Mbps
+AsyncWebServer is @ IP : 192.168.2.132
+..[AWS] Total length to send in chunks = 31259
+[AWS] Bytes sent in chunk = 5620
+[AWS] Bytes sent in chunk = 4300
+[AWS] Bytes sent in chunk = 4300
+[AWS] Bytes sent in chunk = 4300
+[AWS] Bytes sent in chunk = 4300
+[AWS] Bytes sent in chunk = 4300
+[AWS] Bytes sent in chunk = 4139
+[AWS] Bytes sent in chunk = 0
+[AWS] Total length to send in chunks = 31279
+[AWS] Bytes sent in chunk = 5620
+[AWS] Bytes sent in chunk = 4300
+[AWS] Bytes sent in chunk = 4300
+[AWS] Bytes sent in chunk = 4300
+[AWS] Bytes sent in chunk = 4300
+[AWS] Bytes sent in chunk = 4300
+[AWS] Bytes sent in chunk = 4159
+[AWS] Bytes sent in chunk = 0
+```
+
+
+You can access the Async Advanced WebServers @ the server IP
+
+<p align="center">
+    <img src="https://github.com/khoih-prog/AsyncWebServer_ESP32_SC_ENC/raw/main/pics/AsyncWebServer_SendChunked_ESP32_S2.png">
+</p>
 
 
 ---
@@ -1951,6 +2033,8 @@ Submit issues to: [AsyncWebServer_ESP32_SC_ENC issues](https://github.com/khoih-
  8. Add examples [Async_AdvancedWebServer_SendChunked](https://github.com/khoih-prog/AsyncWebServer_RP2040W/tree/main/examples/Async_AdvancedWebServer_SendChunked) and [AsyncWebServer_SendChunked](https://github.com/khoih-prog/AsyncWebServer_RP2040W/tree/main/examples/AsyncWebServer_SendChunked) to demo how to use `beginChunkedResponse()` to send large `html` in chunks
  9. Use `allman astyle` and add `utils`
 10. Add `Async_WebSocketsServer`, `Async_HttpBasicAuth` and `MQTT` examples
+11. Add support to **ESP32S2-based boards** using `LwIP ENC28J60 Ethernet`
+
 
 ---
 ---
