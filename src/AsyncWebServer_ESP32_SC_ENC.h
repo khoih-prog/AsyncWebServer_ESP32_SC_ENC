@@ -22,11 +22,12 @@
   You should have received a copy of the GNU Lesser General Public License along with this library;
   if not, write to the Free Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
-  Version: 1.6.3
+  Version: 1.7.0
 
   Version Modified By   Date      Comments
   ------- -----------  ---------- -----------
-  1.6.3   K Hoang      15/12/2022 Initial porting for W5500 + ESP32_S3. Sync with AsyncWebServer_ESP32_ENC v1.6.3
+  1.6.3   K Hoang      15/12/2022 Initial porting for ENC28J60 + ESP32_S3. Sync with AsyncWebServer_ESP32_ENC v1.6.3
+  1.7.0   K Hoang      19/12/2022 Add support to ESP32_S2_ENC (ESP32_S2 + LwIP ENC28J60)
  *****************************************************************************************************************************/
 
 #ifndef _AsyncWebServer_ESP32_SC_ENC_H_
@@ -47,8 +48,6 @@
 #ifndef SHIELD_TYPE
   #define SHIELD_TYPE         "ESP32_S2_ENC28J60"
 #endif
-
-#error ESP32_S2 not supported yet. Please use EthernetWebServer
 
 #elif ( ARDUINO_ESP32C3_DEV )
 #if (_ASYNC_WEBSERVER_LOGLEVEL_ > 3)
@@ -97,21 +96,21 @@
     #warning Using code for ESP32 core v2.0.0+ in AsyncWebServer_ESP32_SC_ENC.h
   #endif
 
-  #define ASYNC_WEBSERVER_ESP32_SC_ENC_VERSION      "AsyncWebServer_ESP32_SC_ENC v1.6.3 for core v2.0.0+"
+  #define ASYNC_WEBSERVER_ESP32_SC_ENC_VERSION      "AsyncWebServer_ESP32_SC_ENC v1.7.0 for core v2.0.0+"
 #else
 
   #if (_ASYNC_WEBSERVER_LOGLEVEL_ > 2 )
     #warning Using code for ESP32 core v1.0.6- in AsyncWebServer_ESP32_SC_ENC.h
   #endif
 
-  #define ASYNC_WEBSERVER_ESP32_SC_ENC_VERSION        "AsyncWebServer_ESP32_SC_ENC v1.6.3 for core v1.0.6-"
+  #define ASYNC_WEBSERVER_ESP32_SC_ENC_VERSION        "AsyncWebServer_ESP32_SC_ENC v1.7.0 for core v1.0.6-"
 #endif
 
 #define ASYNC_WEBSERVER_ESP32_SC_ENC_VERSION_MAJOR     1
-#define ASYNC_WEBSERVER_ESP32_SC_ENC_VERSION_MINOR     6
-#define ASYNC_WEBSERVER_ESP32_SC_ENC_VERSION_PATCH     3
+#define ASYNC_WEBSERVER_ESP32_SC_ENC_VERSION_MINOR     7
+#define ASYNC_WEBSERVER_ESP32_SC_ENC_VERSION_PATCH     0
 
-#define ASYNC_WEBSERVER_ESP32_SC_ENC_VERSION_INT       1006003
+#define ASYNC_WEBSERVER_ESP32_SC_ENC_VERSION_INT       1007000
 
 /////////////////////////////////////////////////
 
@@ -136,6 +135,7 @@
 #include <WiFi.h>
 #include <WebServer.h> // Introduce corresponding libraries
 
+/////////////////////////////////////
 #include "enc28j60/esp32_sc_enc28j60.h"
 
 #include <hal/spi_types.h>
@@ -144,13 +144,11 @@
 
 #if USING_ESP32_S3
 
-  #if !defined(SPI_HOST)
-    // Using SPI2 for ESP32_SC, but name is SPI2_HOST or SPI3_HOST
-    #define SPI_HOST            SPI2_HOST   //SPI3_HOST
+  #if !defined(ETH_SPI_HOST)
+    #define ETH_SPI_HOST        SPI2_HOST
   #endif
 
   #if !defined(SPI_CLOCK_MHZ)
-    // Using 8MHz for ENC28J60
     #define SPI_CLOCK_MHZ       8
   #endif
 
@@ -178,13 +176,11 @@
 
 #elif USING_ESP32_S2
 
-  #if !defined(SPI_HOST)
-    // Using SPI2 for ESP32_SC, but name is SPI2_HOST or SPI3_HOST
-    #define SPI_HOST            SPI3_HOST   //SPI2_HOST
+  #if !defined(ETH_SPI_HOST)
+    #define ETH_SPI_HOST        SPI2_HOST
   #endif
 
   #if !defined(SPI_CLOCK_MHZ)
-    // Using 25MHz for W5500, 14MHz for W5100
     #define SPI_CLOCK_MHZ       8
   #endif
 
@@ -212,13 +208,11 @@
 
 #elif USING_ESP32_C3
 
-  #if !defined(SPI_HOST)
-    // Using SPI2 for ESP32_SC, but name is SPI2_HOST or SPI3_HOST
-    #define SPI_HOST            SPI3_HOST   //SPI2_HOST
+  #if !defined(ETH_SPI_HOST)
+    #define ETH_SPI_HOST        SPI2_HOST
   #endif
 
   #if !defined(SPI_CLOCK_MHZ)
-    // Using 25MHz for W5500, 14MHz for W5100
     #define SPI_CLOCK_MHZ       8
   #endif
 

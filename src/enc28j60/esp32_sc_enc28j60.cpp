@@ -9,11 +9,12 @@
   Built by Khoi Hoang https://github.com/khoih-prog/AsyncWebServer_ESP32_SC_ENC
   Licensed under GPLv3 license
 
-  Version: 1.6.3
+  Version: 1.7.0
 
   Version Modified By   Date      Comments
   ------- -----------  ---------- -----------
-  1.6.3   K Hoang      15/12/2022 Initial porting for W5500 + ESP32_S3. Sync with AsyncWebServer_ESP32_ENC v1.6.3
+  1.6.3   K Hoang      15/12/2022 Initial porting for ENC28J60 + ESP32_S3. Sync with AsyncWebServer_ESP32_ENC v1.6.3
+  1.7.0   K Hoang      19/12/2022 Add support to ESP32_S2_ENC (ESP32_S2 + LwIP ENC28J60)
  *****************************************************************************************************************************/
 /*
   Based on ETH.h from arduino-esp32 and esp-idf
@@ -91,16 +92,14 @@ bool ESP32_ENC::begin(int MISO, int MOSI, int SCLK, int CS, int INT, int SPICLOC
     sprintf(macStr, "%02X:%02X:%02X:%02X:%02X:%02X", mac_eth[0], mac_eth[1], mac_eth[2],
             mac_eth[3], mac_eth[4], mac_eth[5]);
 
-    AWS_LOGINFO1("Using built-in mac_eth =", macStr);
-    Serial.print("Using built-in mac_eth = ");
-    Serial.println(macStr);
+    AWS_LOGWARN1("Using built-in mac_eth =", macStr);
 
     esp_base_mac_addr_set( mac_eth );
   }
   else
   {
-    AWS_LOGINFO("Using user mac_eth");
-    Serial.println("Using user mac_eth");
+    AWS_LOGWARN("Using user mac_eth");
+
     memcpy(mac_eth, ENC28J60_Mac, sizeof(mac_eth));
 
     esp_base_mac_addr_set( ENC28J60_Mac );
@@ -113,7 +112,6 @@ bool ESP32_ENC::begin(int MISO, int MOSI, int SCLK, int CS, int INT, int SPICLOC
   esp_netif_config_t cfg = ESP_NETIF_DEFAULT_ETH();
   esp_netif_t *eth_netif = esp_netif_new(&cfg);
 
-  //esp_eth_mac_t *eth_mac = enc28j60_begin(MISO_GPIO, MOSI_GPIO, SCLK_GPIO, CS_GPIO, INT_GPIO, SPICLOCK_MHZ, SPI_HOST);
   esp_eth_mac_t *eth_mac = enc28j60_begin(MISO, MOSI, SCLK, CS, INT, SPICLOCK_MHZ, SPIHOST);
 
   if (eth_mac == NULL)
@@ -145,7 +143,11 @@ bool ESP32_ENC::begin(int MISO, int MOSI, int SCLK, int CS, int INT, int SPICLOC
     return false;
   }
 
+#if USING_ESP32_S3
   eth_mac->set_addr(eth_mac, ENC28J60_Mac);
+#else
+  eth_mac->set_addr(eth_mac, mac_eth);
+#endif
 
   if (emac_enc28j60_get_chip_info(eth_mac) < ENC28J60_REV_B5 && SPICLOCK_MHZ < 8)
   {

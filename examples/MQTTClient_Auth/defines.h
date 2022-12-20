@@ -65,7 +65,7 @@ IPAddress myDNS(8, 8, 8, 8);
 // For ENC28J60 & ESP32-S3
 // Optional values to override default settings
 // Don't change unless you know what you're doing
-//#define SPI_HOST            SPI3_HOST
+//#define ETH_SPI_HOST        SPI3_HOST
 //#define SPI_CLOCK_MHZ       8
 
 // Must connect INT to GPIOxx or not working
