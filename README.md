@@ -17,7 +17,7 @@
 
 * [Table of contents](#table-of-contents)
 * [Important Note](#Important-Note)
-* [Why do we need this AsyncWebServer_ESP32_SC_ENC library](#why-do-we-need-this-asyncwebserver_ESP32_ENC-library)
+* [Why do we need this AsyncWebServer_ESP32_SC_ENC library](#why-do-we-need-this-AsyncWebServer_ESP32_SC_ENC-library)
   * [Features](#features)
   * [Why Async is better](#why-async-is-better)
   * [Currently supported Boards](#currently-supported-boards)
