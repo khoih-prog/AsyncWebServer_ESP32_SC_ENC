@@ -103,6 +103,7 @@
   * [4. AsyncWebServer_SendChunked on ESP32S3_DEV with ESP32_S3_ENC28J60](#4-AsyncWebServer_SendChunked-on-ESP32S3_DEV-with-ESP32_S3_ENC28J60)
   * [5. Async_WebSocketsServer on ESP32S3_DEV with ESP32_S3_ENC28J60](#5-Async_WebSocketsServer-on-ESP32S3_DEV-with-ESP32_S3_ENC28J60)
   * [6. Async_HTTPBasicAuth on ESP32S3_DEV with ESP32_S3_ENC28J60](#6-Async_HTTPBasicAuth-on-ESP32S3_DEV-with-ESP32_S3_ENC28J60)
+  * [7. Async_AdvancedWebServer_SendChunked on ESP32S2_DEV with ESP32_S2_ENC28J60](#7-Async_AdvancedWebServer_SendChunked-on-ESP32S2_DEV-with-ESP32_S2_ENC28J60)
 * [Debug](#debug)
 * [Troubleshooting](#troubleshooting)
 * [Issues](#issues)
